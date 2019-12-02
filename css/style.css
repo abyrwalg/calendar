@@ -80,9 +80,16 @@
   
 }
 
+.calendar-menu .current-month {
+  width: 115px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .calendar-menu button.today {
   width: 57px;
-  margin-left: 10px
+  margin-left: 10px;
+  color: #999999;
 }
 
 .calendar {
@@ -92,10 +99,120 @@
 }
 
 .calendar td {
+  position: relative;
   width: 128px;
   height: 128px;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   border: 1px solid #ebebeb;
+  cursor: pointer;
+}
+
+.calendar td.gray {
+  background-color: #f4f4f4;
+}
+
+.calendar td.active {
+  border: 2px solid #8abfe9;
+  background-color: #e5f1f9;
+}
+
+.calendar .header {
+  position: absolute;
+  top: 0;
+  padding-left: 7px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #999999;
+}
+
+.calendar .header.today {
+  color: black;
+}
+
+.add-event {
+  display: none;
+  position: absolute;
+  top: 0;
+  box-sizing: border-box;
+  width: 300px;
+  height: 320px;
+  padding-top: 25px;
+  padding-left: 20px;
+  background-color: white;
+  border: 1px solid #cccccc;
+  box-shadow: 0 3px 10px rgba(122, 113, 113, 0.5);
+}
+
+.add-event::after {
+  position: absolute;
+  z-index: 1;
+  top: 25px;
+  left: -11px;
+  display: block;
+  content: "";
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  background-color: white;
+  border-left: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}
+
+.add-event::before {
+  position: absolute;
+  z-index: -1;
+  top: 25px;
+  left: -11px;
+  display: block;
+  content: "";
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  background-color: white;
+  border-left: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  box-shadow: 0 3px 10px rgba(122, 113, 113, 0.5);
+}
+
+.add-event input {
+  display: block;
+  width: 256px;
+  height: 25px;
+  margin-bottom: 7px;
+}
+
+.add-event textarea {
+  width: 256px;
+  height: 145px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  resize: none;
+}
+
+.add-event button {
+  width: 63px;
+  height: 18px;
+  font-size: 12px;
+  border: 1px solid #a6a6a6;
+  border-radius: 2px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(122, 113, 113, 0.5);
+  cursor: pointer;
+}
+
+.add-event button.close {
+  position: absolute;
+  top: 11px;
+  left: 285px;
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background-image: url("/img/close-icon.png");
+  background-size: contain;
 }

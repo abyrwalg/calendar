@@ -19,12 +19,20 @@
   </div>
   <div class="calendar-container">
     <div class="calendar-menu">
-      <button><</button>
+      <button id="previous-month"><</button>
       <span class="current-month" id="current-month">Ноябрь 2019</span>
-      <button>></button>
-      <button class="today">Сегодня</button>
+      <button id="next-month">></button>
+      <button class="today" id="today">Сегодня</button>
     </div>
     <table class="calendar" id="calendar"></table>
+  </div>
+  <div class="add-event" id="add-event">
+    <input type="text" placeholder="Событие">
+    <input type="text" placeholder="Имена участников">
+    <textarea name="" id="" cols="30" rows="10" placeholder="Описание"></textarea>
+    <button>Готово</button>
+    <button>Удалить</button>
+    <button class="close" id="close"></button>
   </div>
   <script type="module" src="./js/index.js"></script>
 </body>
