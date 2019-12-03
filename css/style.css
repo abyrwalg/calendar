@@ -96,6 +96,7 @@
   width: 896px;
   padding: 0;
   border-spacing: 0;
+  table-layout: fixed;
 }
 
 .calendar td {
@@ -105,6 +106,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  overflow: hidden;
   border: 1px solid #ebebeb;
   cursor: pointer;
 }
@@ -128,13 +130,28 @@
   color: #999999;
 }
 
-.calendar .header.today {
+td.today .header {
   color: black;
+}
+
+.calendar td div {
+  padding-left: 7px;
+}
+
+.calendar td h2 {
+  font-size: 14px;
+  margin: 0;
+}
+
+.calendar td p {
+  font-size: 12px;
+  margin: 0;
 }
 
 .add-event {
   display: none;
   position: absolute;
+  z-index: 1;
   top: 0;
   box-sizing: border-box;
   width: 300px;
@@ -159,28 +176,16 @@
   background-color: white;
   border-left: 1px solid #cccccc;
   border-bottom: 1px solid #cccccc;
-}
-
-.add-event::before {
-  position: absolute;
-  z-index: -1;
-  top: 25px;
-  left: -11px;
-  display: block;
-  content: "";
-  width: 20px;
-  height: 20px;
-  transform: rotate(45deg);
-  background-color: white;
-  border-left: 1px solid #cccccc;
-  border-bottom: 1px solid #cccccc;
-  box-shadow: 0 3px 10px rgba(122, 113, 113, 0.5);
+  box-shadow: -9px 1px 10px -7px rgba(122, 113, 113, 0.5), -2px 9px 10px -7px rgba(122, 113, 113, 0.5);
 }
 
 .add-event input {
   display: block;
+  box-sizing: border-box;
   width: 256px;
   height: 25px;
+  padding-right: 5px;
+  padding-left: 5px;
   margin-bottom: 7px;
 }
 
@@ -190,6 +195,8 @@
   margin-top: 15px;
   margin-bottom: 20px;
   resize: none;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .add-event button {
