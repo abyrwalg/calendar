@@ -10,7 +10,7 @@ class Model {
       {
         title: 'Очень важное событие',
         date: '2019-12-15',
-        participants: 'Петя Сидоров',
+        participants: 'Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, ',
         description: 'Абырвалг абыр абарвалг',
       },
       {
@@ -34,7 +34,6 @@ class Model {
 
   deleteEvent(date) {
     const index = this.events.findIndex(event => event.date === date);
-    console.log(index);
     if (index !== -1) {
       this.events.splice(index, 1);
     }

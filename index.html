@@ -11,8 +11,7 @@
   <div class="menu-container">
     <div class="menu">
       <div class="buttons">
-        <button>Добавить</button>
-        <button>Обновить</button>
+        <button id="add-event-button">Добавить</button>
       </div>
       <input class="search" type="text" placeholder="Событие, дата или участник">
     </div>
@@ -26,14 +25,15 @@
     </div>
     <table class="calendar" id="calendar"></table>
   </div>
-  <div class="add-event" id="add-event">
-    <input type="text" id="event-title" placeholder="Событие">
+  <form class="add-event" id="add-event" name="abyrwalg" action="/" method="get">
+    <input type="date" id="event-date" required>
+    <input type="text" id="event-title" placeholder="Событие" required>
     <input type="text" id="event-participants" placeholder="Имена участников">
     <textarea id="event-description" cols="30" rows="10" placeholder="Описание"></textarea>
-    <button id="event-submit">Готово</button>
+    <button id="event-submit" type="submit">Готово</button>
     <button id="event-remove">Удалить</button>
     <button class="close" id="close"></button>
-  </div>
+  </form>
   <script type="module" src="./js/index.js"></script>
 </body>
 </html>
