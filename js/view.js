@@ -25,22 +25,77 @@ class View extends EventEmitter {
     this.eventFormParticipants = document.getElementById('event-participants');
     this.eventFormDescription = document.getElementById('event-description');
 
-    /*  this.eventFormSubmit = document.getElementById('event-submit');
-    this.eventFormSubmit.addEventListener('click', this.addEventHandler); */
-
     this.eventFormRemove = document.getElementById('event-remove');
     this.eventFormRemove.addEventListener('click', this.removeEventHandler);
 
     this.addEventButton = document.getElementById('add-event-button');
     this.addEventButton.addEventListener('click', this.addEventButtonHandler);
 
+    this.searchField = document.getElementById('search-input');
+    this.searchField.value = '';
+    this.searchField.addEventListener('keyup', this.searchHandler);
+    this.searchField.addEventListener('focus', this.closeFormHandler);
+    this.searchBox = document.getElementById('search-box');
+
     this.today = new Date();
     this.days = [];
     this.events = [];
     this.selectedDay = null;
-
   }
 
+  searchHandler = event => {
+    if (event.target.value === '' && this.searchBox.style.display === 'block') {
+      this.closeSearchHandler();
+    }
+    this.searchBox.style.display = 'none';
+    this.emit('search', event.target.value);
+  }
+
+  showSearchResults = searchResults => {
+    this.searchBox.innerHTML = '';
+    if (searchResults.length > 0) {
+      this.searchBox.style.display = 'block';
+      if (!document.getElementById('overlay')) {
+        this.createOverlay(this.closeSearchHandler);
+      }
+    }
+    searchResults.forEach(result => {
+      const searchResultBox = document.createElement('div');
+      searchResultBox.className = 'search-result';
+      searchResultBox.dataset.date = result.date;
+      searchResultBox.addEventListener('click', this.showEvent);
+
+      const searchResultHeader = document.createElement('h3');
+      searchResultHeader.textContent = result.title;
+
+      const searchResultDateSpan = document.createElement('span');
+      const monthsNames = 'января, февраля, марта, апреля, мая, июня, июля, август, сентября, октября, ноября, декабря'.split(',');
+      const date = new Date(result.date);
+      searchResultDateSpan.textContent = `${date.getDate()} ${monthsNames[date.getMonth()]} ${date.getFullYear()}`;
+
+      searchResultBox.appendChild(searchResultHeader);
+      searchResultBox.appendChild(searchResultDateSpan);
+      this.searchBox.appendChild(searchResultBox);
+    });
+  }
+
+  closeSearchHandler = () => {
+    this.searchBox.style.display = 'none';
+    this.searchField.value = '';
+    document.body.removeChild(document.getElementById('overlay'));
+  }
+
+  showEvent = event => {
+    const { date } = event.target.closest('.search-result').dataset;
+
+    this.today = new Date(date);
+    this.showCalendar();
+    this.closeSearchHandler();
+
+    this.selectedDay = document.querySelector(`td[data-date="${date}"]`);
+    this.selectedDay.classList.add('active');
+    this.showEventForm(this.selectedDay.getBoundingClientRect(), date);
+  }
 
   addEventButtonHandler = event => {
     const position = event.target.getBoundingClientRect();
@@ -58,7 +113,7 @@ class View extends EventEmitter {
     this.eventForm.style.top = `${position.y + 50 + window.pageYOffset}px`;
 
     this.eventForm.scrollIntoView();
-    this.createOverlay();
+    this.createOverlay(this.closeFormHandler);
   }
 
   switchMonthHandler = event => {
@@ -72,19 +127,16 @@ class View extends EventEmitter {
     this.showCalendar();
   }
 
-  createOverlay = () => {
+  createOverlay = handler => {
     const overlay = document.createElement('div');
     overlay.style = 'background-color: transparent; position: fixed; top: 0; left:0; right: 0; bottom: 0; display: block;';
     overlay.id = 'overlay';
-    overlay.addEventListener('click', this.closeFormHandler);
+    overlay.addEventListener('click', handler);
     document.body.appendChild(overlay);
   }
 
   clearForm = () => {
-    this.eventFormTitle.value = '';
-    this.eventFormParticipants.value = '';
-    this.eventFormDescription.value = '';
-    this.eventFormDate.value = '';
+    this.eventForm.reset();
   }
 
   calendarClickHandler = event => {
@@ -103,7 +155,11 @@ class View extends EventEmitter {
       this.selectedDay = td;
     }
 
+    this.showEventForm(position, currentDate);
 
+  }
+
+  showEventForm(position, currentDate) {
     this.eventForm.style.display = 'block';
     this.eventFormDate.style.display = 'none';
     this.eventFormRemove.style.display = 'inline-block';
@@ -124,8 +180,8 @@ class View extends EventEmitter {
 
     this.eventForm.style.left = `${143 + position.x + window.pageXOffset}px`;
     this.eventForm.style.top = `${position.y - 20 + window.pageYOffset}px`;
-    this.eventForm.scrollIntoView({inline: 'end'});
-    this.createOverlay();
+    this.eventForm.scrollIntoView({ inline: 'end' });
+    this.createOverlay(this.closeFormHandler);
   }
 
   addEventHandler = event => {
@@ -143,7 +199,7 @@ class View extends EventEmitter {
     this.emit('add', eventObject);
   }
 
-  removeEventHandler = event => {
+  removeEventHandler = () => {
     this.emit('remove', this.selectedDay.dataset.date);
     this.closeFormHandler();
   }

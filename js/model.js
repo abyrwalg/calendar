@@ -37,7 +37,71 @@ class Model {
     if (index !== -1) {
       this.events.splice(index, 1);
     }
+  }
 
+  search(text) {
+    if (text.length > 2) {
+
+      let dateArray = [];
+
+      if (text.includes('-')) {
+        dateArray = text.split('-');
+      } else {
+        dateArray = text.split(' ');
+      }
+
+      dateArray.forEach((item, index) => {
+        if (isNaN(item)) {
+          switch (item.toLowerCase()) {
+            case 'января':
+              dateArray[index] = 1;
+              break;
+            case 'февраля':
+              dateArray[index] = 2;
+              break;
+            case 'марта':
+              dateArray[index] = 3;
+              break;
+            case 'апреля':
+              dateArray[index] = 4;
+              break;
+            case 'мая':
+              dateArray[index] = 5;
+              break;
+            case 'июня':
+              dateArray[index] = 6;
+              break;
+            case 'июля':
+              dateArray[index] = 7;
+              break;
+            case 'августа':
+              dateArray[index] = 8;
+              break;
+            case 'сентября':
+              dateArray[index] = 9;
+              break;
+            case 'октября':
+              dateArray[index] = 10;
+              break;
+            case 'ноября':
+              dateArray[index] = 11;
+              break;
+            case 'декабря':
+              dateArray[index] = 12;
+              break;
+          }
+        }
+      });
+
+      const date = new Date(dateArray.reverse().join('-'));
+      const result = this.events.filter(event => {
+        const eventDate = new Date(event.date);
+        return event.title.toLowerCase().includes(text.toLowerCase())
+          || event.participants.toLowerCase().includes(text.toLowerCase())
+          || date.getTime() === eventDate.getTime();
+      });
+      return result;
+    }
   }
 }
 
