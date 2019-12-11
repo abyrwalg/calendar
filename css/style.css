@@ -19,7 +19,7 @@
   right: 207px;
   width: 17px;
   height: 17px;
-  background-image: url('/img/search-icon.png');
+  background-image: url('../img/search-icon.png');
   background-size: contain;
   content: "";
 }
@@ -146,11 +146,25 @@
 }
 
 .calendar-menu .date-input {
-  visibility: hidden;
   position: absolute;
-  left: 5px;
-  width: 0;
+  left: 0;
+  width: 110px;
   margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.calendar-menu .date-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
 }
 
 .calendar-menu button.today {
@@ -315,6 +329,6 @@ td.today .header {
   border: none;
   border-radius: 0;
   box-shadow: none;
-  background-image: url("/img/close-icon.png");
+  background-image: url("../img/close-icon.png");
   background-size: contain;
 }

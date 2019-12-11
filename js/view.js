@@ -200,6 +200,8 @@ class View extends EventEmitter {
 
   addEventHandler = event => {
     event.preventDefault();
+
+    console.log(event.target);
     const eventObject = {
       title: this.eventFormTitle.value,
       date: this.selectedDay
@@ -211,6 +213,12 @@ class View extends EventEmitter {
     this.closeFormHandler();
     this.clearForm();
     this.emit('add', eventObject);
+
+    if (event.target.classList.contains('button')) {
+      this.today = new Date(eventObject.date);
+      this.showCalendar();
+      document.querySelector(`[data-date="${eventObject.date}"]`).classList.add('active');
+    }
   }
 
   removeEventHandler = () => {
@@ -218,7 +226,7 @@ class View extends EventEmitter {
     this.closeFormHandler();
   }
 
-  closeFormHandler = event => {
+  closeFormHandler = () => {
     this.days.forEach(day => day.classList.remove('active'));
     this.eventForm.style.display = 'none';
     this.clearForm();
@@ -236,7 +244,9 @@ class View extends EventEmitter {
     const header = document.createElement('p');
     td.appendChild(header);
     header.appendChild(document.createTextNode(text));
-    if (date.getMonth() === today.getMonth() && date.getDate() === today.getDate() && date.getFullYear() === today.getFullYear()) {
+    if (date.getMonth() === today.getMonth()
+      && date.getDate() === today.getDate()
+      && date.getFullYear() === today.getFullYear()) {
       td.classList.add('today');
     }
 
@@ -282,7 +292,7 @@ class View extends EventEmitter {
   showCalendar(events = this.events) {
 
     let month = this.today.getMonth() + 1;
-    month = month.toString().length > 1 ? month.toString() : '0' + month.toString();
+    month = month.toString().length > 1 ? month.toString() : `0${month.toString()}`;
     this.currentMonthInput.value = `${this.today.getFullYear()}-${month}-${this.today.getDate()}`;
 
     this.dateSpan.textContent = dateFormatter(this.today);
