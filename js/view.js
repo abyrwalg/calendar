@@ -48,13 +48,15 @@ class View extends EventEmitter {
 
 
   inputDateHandler = event => {
-    this.today = new Date(event.target.value);
-    this.showCalendar();
+    if (event.target.value) {
+      this.today = new Date(event.target.value);
+      this.showCalendar();
 
-    this.selectedDay = document.querySelector(`td[data-date="${dateToString(this.today)}"]`);
-    this.selectedDay.classList.add('active');
-    this.showEventForm(this.selectedDay.getBoundingClientRect(), dateToString(this.today));
-  }
+      this.selectedDay = document.querySelector(`td[data-date="${dateToString(this.today)}"]`);
+      this.selectedDay.classList.add('active');
+      this.showEventForm(this.selectedDay.getBoundingClientRect(), dateToString(this.today));
+    }
+  } 
 
   searchHandler = event => {
     if (event.target.value === '' && this.searchBox.style.display === 'block') {

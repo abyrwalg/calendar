@@ -147,9 +147,11 @@
 
 .calendar-menu .date-input {
   position: absolute;
-  left: 0;
-  width: 110px;
+  box-sizing: border-box;
+  left: 1px;
+  width: 115px;
   margin: 0;
+  padding: 0;
   opacity: 0;
   cursor: pointer;
 }
