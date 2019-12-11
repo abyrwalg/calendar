@@ -46,6 +46,16 @@ function dateToString(date) {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
+function saveData(data) {
+  const stringData = JSON.stringify(data);
+  localStorage.setItem('calendar', stringData);
+}
+
+function loadData() {
+  const stringData = JSON.parse(localStorage.getItem('calendar'));
+  return stringData;
+}
+
 class EventEmitter {
   constructor() {
     this.events = {};
@@ -63,4 +73,4 @@ class EventEmitter {
   }
 }
 
-export { dateFormatter, dateToString, EventEmitter };
+export { dateFormatter, dateToString, EventEmitter, loadData, saveData };

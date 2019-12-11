@@ -37,10 +37,23 @@ class View extends EventEmitter {
     this.searchField.addEventListener('focus', this.closeFormHandler);
     this.searchBox = document.getElementById('search-box');
 
+    this.currentMonthInput = document.getElementById('date-input');
+    this.currentMonthInput.addEventListener('change', this.inputDateHandler);
+
     this.today = new Date();
     this.days = [];
     this.events = [];
     this.selectedDay = null;
+  }
+
+
+  inputDateHandler = event => {
+    this.today = new Date(event.target.value);
+    this.showCalendar();
+
+    this.selectedDay = document.querySelector(`td[data-date="${dateToString(this.today)}"]`);
+    this.selectedDay.classList.add('active');
+    this.showEventForm(this.selectedDay.getBoundingClientRect(), dateToString(this.today));
   }
 
   searchHandler = event => {
@@ -59,6 +72,7 @@ class View extends EventEmitter {
         this.createOverlay(this.closeSearchHandler);
       }
     }
+    searchResults.sort((a, b) => new Date(a.date) - new Date(b.date));
     searchResults.forEach(result => {
       const searchResultBox = document.createElement('div');
       searchResultBox.className = 'search-result';
@@ -266,6 +280,11 @@ class View extends EventEmitter {
   }
 
   showCalendar(events = this.events) {
+
+    let month = this.today.getMonth() + 1;
+    month = month.toString().length > 1 ? month.toString() : '0' + month.toString();
+    this.currentMonthInput.value = `${this.today.getFullYear()}-${month}-${this.today.getDate()}`;
+
     this.dateSpan.textContent = dateFormatter(this.today);
     this.calendar.innerText = '';
     const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];

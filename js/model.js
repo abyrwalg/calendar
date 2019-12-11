@@ -1,8 +1,11 @@
-class Model {
-  constructor() {
-    this.events = [
+import { EventEmitter } from "./helpers.js";
+
+class Model extends EventEmitter {
+  constructor(calendarData) {
+    super();
+    this.events = calendarData || [
       {
-        title: 'Test',
+        title: 'Событие 1',
         date: '2019-12-10',
         participants: 'Вася Пупкин, Иван Иванов',
         description: 'Абырвалг абыр абарвалг',
@@ -10,7 +13,7 @@ class Model {
       {
         title: 'Очень важное событие',
         date: '2019-12-15',
-        participants: 'Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, ',
+        participants: 'Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров, Петя Сидоров',
         description: 'Абырвалг абыр абарвалг',
       },
       {
@@ -29,13 +32,14 @@ class Model {
     } else {
       this.events.push(event);
     }
-
+    this.emit('update', this.events);
   }
 
   deleteEvent(date) {
     const index = this.events.findIndex(event => event.date === date);
     if (index !== -1) {
       this.events.splice(index, 1);
+      this.emit('update', this.events);
     }
   }
 

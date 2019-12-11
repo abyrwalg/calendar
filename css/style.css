@@ -133,10 +133,24 @@
   
 }
 
+.calendar-menu .current-month-container {
+  position: relative;
+  width: 115px;
+  text-align: center;
+}
+
 .calendar-menu .current-month {
   width: 115px;
   font-weight: bold;
-  text-align: center;
+  cursor: pointer;
+}
+
+.calendar-menu .date-input {
+  visibility: hidden;
+  position: absolute;
+  left: 5px;
+  width: 0;
+  margin: 0;
 }
 
 .calendar-menu button.today {
